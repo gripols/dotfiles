@@ -17,6 +17,9 @@ set incsearch             " Highlights as you search
 set undofile              " Enable persistent undo
 set showcmd               " Show command in bottom bar
 set termguicolors         " True colors term support
+setlocal spell
+set spelllang=en_us
+inoremap <C-l> <c-g>u<esc>[s1z=`]a<c-g>u
 syntax enable             " Enable syntax highlighting
 filetype plugin indent on " Enable filetype detection, plugins, and indentation
 
@@ -28,6 +31,8 @@ Plug 'lervag/vimtex'
 Plug 'preservim/tagbar'
 Plug 'preservim/nerdtree'
 Plug 'chiel92/vim-autoformat'
+Plug 'sirver/ultisnips'
+Plug 'xuhdev/vim-latex-live-preview', { 'for': 'tex' }
 
 call plug#end()
 
@@ -36,8 +41,8 @@ colorscheme gruvbox
 set background=dark
 
 " VimTeX Configuration
-let g:vimtex_view_method = 'general'
-let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_method = 'zathura'
+let g:vimtex_general_viewer = 'zathura'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_compiler_method = 'latexmk'
@@ -52,10 +57,19 @@ let g:vimtex_compiler_latexmk = {
       \   '-output-directory=build',
       \ ],
       \}
-autocmd FileType tex nnoremap <buffer> <Leader>p :VimtexCompile<CR>
+autocmd FileType tex nnoremap <buffer> <Leader>p :VimtexView<CR>
+autocmd FileType tex nnoremap <buffer> <Leader>l :VimtexCompile<CR>
 autocmd FileType tex nnoremap <buffer> <Leader>c :VimtexClean<CR>
-autocmd FileType tex nnoremap <buffer> <Leader>v :VimtexView<CR>
 
+" Vim LaTeX Live Preview Configuration
+" autocmd Filetype tex setl updatetime=1
+" autocmd Filetype tex nnoremap <buffer> <Leader>p :LLPStartPreview<CR>
+" let g:livepreview_previewer = 'zathura'
+
+" UltiSnips Configuration
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 " NERDTree Settings
 let g:NERDTreeWinSize = 30
 let g:NERDTreeShowBookmarks = 1
